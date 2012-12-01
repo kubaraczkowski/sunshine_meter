@@ -32,7 +32,7 @@ def get_image(camera,filename=None):
 
     #save file
     if filename:
-        font = cv.InitFont(cv.CV_FONT_HERSHEY_SIMPLEX, 0.8, 0.8, 0, 3, 8)
+        font = cv.InitFont(cv.CV_FONT_HERSHEY_SIMPLEX, 0.8, 0.8, 0, 2, cv.CV_AA)
         cv.PutText(im,filename,(DATE_X,DATE_Y),font,cv.RGB(255,255,0))
         filename = os.path.join(DIR_PREFIX,filename+'.jpg')
         print filename
@@ -41,7 +41,7 @@ def get_image(camera,filename=None):
     #del(camera)
     del im, im2, gray, img, gray_mat
 
-    return power
+    return (power,filename)
 
 if __name__ == '__main__':
     import pylab
