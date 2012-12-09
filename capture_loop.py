@@ -49,7 +49,7 @@ def create_animation(files,output_filename):
     """ Uses gifsicle to create animation. The parameters are hardcoded for the moment. First the files are converted using imagemagick's convert.
     """
     convert = "convert -resize 50% {f} {f}.gif"
-    gifsicle = "gifsicle --delay=10 --loop -O2 --colors 256 --dither {files} > {output}"
+    gifsicle = "gifsicle --delay=10 --loop -O2 --colors 256 --conserve-memory {files} > {output}"
 
     # convert files to gif
     for f in files:
@@ -79,5 +79,5 @@ if __name__=="__main__":
         print("Created animation")
 
         cleanup_gifs(days_limit=2)
-        sleep(60)
+        sleep(10*60)
 

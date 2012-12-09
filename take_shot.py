@@ -13,7 +13,7 @@ DATE_Y = 680
 def init_camera():
     camera = cv.CaptureFromCAM(0)
     cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_WIDTH, 1280)
-    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_HEIGHT, 720)
+    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_HEIGHT, 760)
     return camera
 
 def get_image(camera,filename=None):
@@ -39,7 +39,7 @@ def get_image(camera,filename=None):
         cv.SaveImage(filename,im)
 
     #del(camera)
-    del im, im2, gray, img, gray_mat
+    del im, im2, gray, img, gray_mat, font
 
     return (power,filename)
 
