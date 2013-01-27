@@ -45,11 +45,16 @@ def cleanup_gifs(days_limit=30):
 
     
 
-def create_animation(files,output_filename):
+def create_animation(files,output_filename,noframes=None):
     """ Uses gifsicle to create animation. The parameters are hardcoded for the moment. First the files are converted using imagemagick's convert.
     """
+    if not noframes:
+        noframes = 30*24 # 30 days of 24 hours
     convert = "convert -resize 50% {f} {f}.gif"
     gifsicle = "gifsicle --delay=10 --loop -O2 --colors 256 --conserve-memory {files} > {output}"
+    gifsicle_check_noframes = "gifsicle --info | head -n 1"
+    gifsicle_append = "gifsicle --delay=10 --loop -O2 --colors 256 --corserve-memory --append {what} -o {output}"
+    gifsicle_delete_frame0 = 'gifsicle --delay=10 --loop -O2 --colors 256 --corserve-memory --delete "#0" -o {output}'
 
     # convert files to gif
     for f in files:
@@ -57,7 +62,13 @@ def create_animation(files,output_filename):
             subprocess.call(convert.format(f=f),shell=True)
     # run gifsicle to create animation
     files = ' '.join([f+'.gif' for f in files])
-    subprocess.call(gifsicle.format(files=files,output=output_filename),shell=True)
+    # first check numbers of frames in the output_filename
+    in_gif=int(subprocess.check_output(gifsicle_check_noframes,shell=True).split()[2])
+    if in_gif > noframes:
+	# too many frames already. remove the first one
+        subprocess.call(gifsicle_delete_frame0.format(output=output_filename),shell=True)
+    # append the newest filename.gif to the file
+    subprocess.call(gifsicle_append.format(what="%s.gif"%files[-1],output=output_filename),shell=True)
 
 
 
