@@ -10,11 +10,39 @@ DATE_X = 850
 DATE_Y = 680
 
 
-def init_camera():
+def init_camera(rx=640,ry=480):
+    setup_uvc_camera()
     camera = cv.CaptureFromCAM(0)
-    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_WIDTH, 1280)
-    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_HEIGHT, 760)
+    # set camera properties
+    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_WIDTH, rx)
+    cv.SetCaptureProperty(camera, CV_CAP_PROP_FRAME_HEIGHT, ry)
     return camera
+
+def setup_uvc_camera():
+    command = 'uvcdynctrl -s '
+    command += 'Brightness 0'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += 'Contrast 13'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"White Balance Temperature, Auto" 0'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"White Balance Temperature" 6500'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"Backlight Compensation" 0'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"Exposure, Auto" 1'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"Exposure (Absolute)" 300'
+    os.system(command)
+    command = 'uvcdynctrl -s '
+    command += '"Exposure, Auto Priority" 0'
+    os.system(command)
 
 def get_image(camera,filename=None):
     im = cv.QueryFrame(camera)
