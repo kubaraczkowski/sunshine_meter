@@ -6,8 +6,8 @@ CV_CAP_PROP_FRAME_WIDTH = 3
 CV_CAP_PROP_FRAME_HEIGHT = 4
 
 DIR_PREFIX = './pics'
-DATE_X = 850
-DATE_Y = 680
+DATE_X = 0 
+DATE_Y = 460
 
 
 def init_camera(rx=640,ry=480):
@@ -65,32 +65,39 @@ def get_image(camera,filename=None):
         filename = os.path.join(DIR_PREFIX,filename+'.jpg')
         print filename
         cv.SaveImage(filename,im)
+        del font
+    else:
+        filename = None
 
     #del(camera)
-    del im, im2, gray, img, gray_mat, font
+    del im, im2, gray, img, gray_mat
 
     return (power,filename)
 
 if __name__ == '__main__':
-    import pylab
-    pylab.ion()
-    fig = pylab.figure()
-    ax = fig.add_subplot(111)
+    if 1:
+        camera = init_camera()
+        print get_image(camera,'test_file')
+    else:
+        import pylab
+        pylab.ion()
+        fig = pylab.figure()
+        ax = fig.add_subplot(111)
 
-    p = []
-    init_camera()
-    p.append(get_image())
-    ix = []
-    ix.append(1)
-    line1, = ax.plot(ix,p,'o-')
+        p = []
+        camera = init_camera()
+        p.append(get_image(camera,'test_file')[0])
+        ix = []
+        ix.append(1)
+        line1, = ax.plot(ix,p,'o-')
 
-    while True:
-        p.append(get_image())
-        print p[-1]
-        ix.append(ix[-1]+1)
-        line1.set_data(ix,p)
-        ax.relim()
-        ax.autoscale()
-        fig.canvas.draw()
+        while True:
+            p.append(get_image(camera,'test_file')[0])
+            print p[-1]
+            ix.append(ix[-1]+1)
+            line1.set_data(ix,p)
+            ax.relim()
+            ax.autoscale()
+            fig.canvas.draw()
         
 
