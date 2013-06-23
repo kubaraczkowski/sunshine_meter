@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1', {'packages':['corechart']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawAll);
+    
+    function drawAll() {
+      var hours = [7, 9, 12, 15, 17];
+      for (var i=0; i < hours.length; i++) {
+        console.log(hours[i]);
+        var div = document.createElement('div');
+        div.id = 'chart_div' + hours[i];
+        document.body.appendChild(div);
+        drawChart(hours[i],30);
+      }
+
+    }  
+
+    function drawChart(hour,days) {
+      var jsonData = $.ajax({
+          url: "/get_data/" + hour + "/" + days,
+          dataType:"json",
+          async: false
+          }).responseText;
+          
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(jsonData);
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'+hour));
+      chart.draw(data, {width: 600, height: 440});
+    }
+
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>
+</html> 

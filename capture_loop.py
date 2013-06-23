@@ -1,6 +1,5 @@
 """ Main loop for capturing picture (+brightness) every hour and storing it
 in the ./pics folder. The timestamp is saved in the file name. Sqlite database stores the timestamp, brightness, filename(for easier tracking).
-If time == midnight, a GIF animation is made from the last 24*30 files (one month)
 """
 
 import datetime
@@ -15,7 +14,7 @@ from memory import memory
 import creategif
 
 DIR_PREFIX = './pics'
-GIF_HOURS = [7, 9, 12, 15, 17, 19]
+GIF_HOURS = [5, 7, 9,10,11, 12,13,14, 15,16, 17,18, 19, 21]
 
 def time_stamped(fname, fmt='%Y-%m-%d-%H-%M-%S_{fname}'):
     """ returns standardized filename for photo captures

@@ -67,7 +67,7 @@ def get_image(camera,filename=None):
         cv.SaveImage(filename,im)
         del font
     else:
-        filename = None
+        filename = ''
 
     #del(camera)
     del im, im2, gray, img, gray_mat
